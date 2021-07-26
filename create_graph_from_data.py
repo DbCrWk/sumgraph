@@ -1,5 +1,6 @@
 import pandas as pd
 import networkx as nx
+import matplotlib.pyplot as plt
 
 
 seconds_in_a_day = 86400
@@ -32,11 +33,33 @@ def create_graph_from_data(filepath):
         time_true = row["Time True"]
         percent_true = time_true / seconds_in_a_day
 
+        if (percent_true == 0):
+            return
+
         G.add_edge(nodes_for_edge[0], nodes_for_edge[1], weight=percent_true)
 
     [add_edge_from_row(row) for index, row in dataframe.iterrows()]
 
-    print(G.nodes(), G.edges())
+    # 4. Visualize the graph
+    elarge = [(u, v) for (u, v, d) in G.edges(data=True) if d["weight"] > 0.5]
+    esmall = [(u, v) for (u, v, d) in G.edges(data=True) if d["weight"] <= 0.5]
+
+    pos = nx.spring_layout(G)  # positions for all nodes
+
+    # nodes
+    nx.draw_networkx_nodes(G, pos, node_size=700)
+
+    # edges
+    nx.draw_networkx_edges(G, pos, edgelist=elarge, width=6)
+    nx.draw_networkx_edges(
+        G, pos, edgelist=esmall, width=6, alpha=0.5, edge_color="b", style="dashed"
+    )
+
+    # labels
+    nx.draw_networkx_labels(G, pos, font_size=20, font_family="sans-serif")
+
+    plt.axis("off")
+    plt.show()
 
 
 if __name__ == "__main__":
