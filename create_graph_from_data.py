@@ -11,6 +11,8 @@ def extract_satellite_names_from_analysis_label(analysis_label: str):
 
 
 def create_graph_from_data(filepath):
+    # TODO: pre-process SOAP data
+
     dataframe = pd.read_csv(filepath)
 
     # 1. Get all of the satellite names from the "Anlaysis" column
@@ -40,26 +42,31 @@ def create_graph_from_data(filepath):
 
     [add_edge_from_row(row) for index, row in dataframe.iterrows()]
 
+    print('eigenvector_centrality', nx.eigenvector_centrality(G))
+    print('betweenness_centrality', nx.betweenness_centrality(G))
+    print('current_flow_betweenness_centrality',
+          nx.current_flow_betweenness_centrality(G))
+
     # 4. Visualize the graph
-    elarge = [(u, v) for (u, v, d) in G.edges(data=True) if d["weight"] > 0.5]
-    esmall = [(u, v) for (u, v, d) in G.edges(data=True) if d["weight"] <= 0.5]
+    # elarge = [(u, v) for (u, v, d) in G.edges(data=True) if d["weight"] > 0.5]
+    # esmall = [(u, v) for (u, v, d) in G.edges(data=True) if d["weight"] <= 0.5]
 
-    pos = nx.spring_layout(G)  # positions for all nodes
+    # pos = nx.spring_layout(G)  # positions for all nodes
 
-    # nodes
-    nx.draw_networkx_nodes(G, pos, node_size=700)
+    # # nodes
+    # nx.draw_networkx_nodes(G, pos, node_size=700)
 
-    # edges
-    nx.draw_networkx_edges(G, pos, edgelist=elarge, width=6)
-    nx.draw_networkx_edges(
-        G, pos, edgelist=esmall, width=6, alpha=0.5, edge_color="b", style="dashed"
-    )
+    # # edges
+    # nx.draw_networkx_edges(G, pos, edgelist=elarge, width=6)
+    # nx.draw_networkx_edges(
+    #     G, pos, edgelist=esmall, width=6, alpha=0.5, edge_color="b", style="dashed"
+    # )
 
-    # labels
-    nx.draw_networkx_labels(G, pos, font_size=20, font_family="sans-serif")
+    # # labels
+    # nx.draw_networkx_labels(G, pos, font_size=20, font_family="sans-serif")
 
-    plt.axis("off")
-    plt.show()
+    # plt.axis("off")
+    # plt.show()
 
 
 if __name__ == "__main__":

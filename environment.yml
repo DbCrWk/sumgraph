@@ -1,14 +1,14 @@
 name: nasa-average-graphs
 channels:
-  - anaconda
   - conda-forge
+  - anaconda
   - defaults
 dependencies:
   - autopep8=1.5.7=pyhd3eb1b0_0
   - blas=1.0=mkl
   - bottleneck=1.3.2=py38hf1fa96c_1
-  - ca-certificates=2021.5.30=h033912b_0
-  - certifi=2021.5.30=py38h50d1736_0
+  - ca-certificates=2020.10.14=0
+  - certifi=2020.6.20=py38_0
   - cycler=0.10.0=py_2
   - decorator=4.4.2=py_0
   - freetype=2.10.4=h4cff582_1
@@ -16,6 +16,7 @@ dependencies:
   - kiwisolver=1.3.1=py38h23ab428_0
   - libcxx=10.0.0=1
   - libffi=3.3=hb1e8313_2
+  - libgfortran=3.0.1=h93005f0_2
   - libpng=1.6.37=h7cec526_2
   - matplotlib=3.2.2=1
   - matplotlib-base=3.2.2=py38h1300a51_1
@@ -38,6 +39,7 @@ dependencies:
   - python_abi=3.8=2_cp38
   - pytz=2021.1=pyhd3eb1b0_0
   - readline=8.1=h9ed2024_0
+  - scipy=1.6.2=py38hd5f7400_1
   - setuptools=52.0.0=py38hecd8cb5_0
   - six=1.16.0=pyhd3eb1b0_0
   - sqlite=3.36.0=hce871da_0
