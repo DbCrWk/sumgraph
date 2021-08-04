@@ -7,17 +7,7 @@
 
 ## Usage
 
-Use `conda` to install dependencies and setup the environment.
-There is an `environment.yml` file for managing dependencies.
+Please ensure that you have:
 
-Run
-
-```bash
-conda env create -f environment.yml
-```
-
-And then invoke the main script with
-
-```bash
-python create_graph_from_data.py
-```
+- `python` installed, ideally through `pyenv`
+- `poetry` installed
