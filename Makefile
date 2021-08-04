@@ -14,11 +14,11 @@ clean-test:
 
 clean: clean-pyc clean-test
 
-test: clean
-	. .venv/bin/activate && pytest tests --cov=sumgraph --cov-report=term-missing
-
 mypy:
 	. .venv/bin/activate && mypy sumgraph tests
+
+test: clean
+	. .venv/bin/activate && pytest tests --cov=sumgraph --cov-report=term-missing
 
 pylint:
 	. .venv/bin/activate && pylint sumgraph tests --reports=y
@@ -26,4 +26,4 @@ pylint:
 black:
 	. .venv/bin/activate && black sumgraph tests --check
 
-check: test mypy pylint black
+check: mypy test pylint black
