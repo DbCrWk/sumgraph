@@ -1,6 +1,7 @@
 setup:
 	python -m venv .venv && . .venv/bin/activate
 	poetry install
+	pre-commit install --hook-type pre-commit --hook-type pre-push
 
 clean-pyc:
 	find . -name '*.pyc' -exec rm -f {} +

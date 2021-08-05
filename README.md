@@ -11,18 +11,17 @@ Please ensure that you have:
 
 - `python` installed, ideally through `pyenv`
 - `poetry` installed
+- `make` installed
 
 ## Development
 
 For first-time setup, run
 
 ```bash
-python3 -m .venv
-poetry install
-pre-commit install --hook-type pre-commit --hook-type pre-push
+make setup
 ```
 
-Then, to get started, run
+Afterwards, when working on the project, run
 
 ```bash
 source .venv/bin/activate
