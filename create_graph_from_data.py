@@ -1,17 +1,23 @@
+"""
+A quick and dirty script to generate a summary graph from some soap data
+"""
+
+from typing import List
 import pandas as pd
 import networkx as nx
-import matplotlib.pyplot as plt
+
+# import matplotlib.pyplot as plt
 
 
-seconds_in_a_day = 86400
+SECONDS_IN_A_DAY = 86400
 
 
-def extract_satellite_names_from_analysis_label(analysis_label: str):
+def extract_satellite_names_from_analysis_label(analysis_label: str) -> List[str]:
     return analysis_label.split(" sees ")
 
 
-def create_graph_from_data(filepath):
-    # TODO: pre-process SOAP data
+def create_graph_from_data(filepath: str):
+    # We assume SOAP data has been pre-processed
 
     dataframe = pd.read_csv(filepath)
 
@@ -25,8 +31,8 @@ def create_graph_from_data(filepath):
     satellite_name_list = list(set(satellite_names_with_duplicates))
 
     # 2. Create nodes in graphs with labels of the satellites
-    G = nx.Graph()
-    G.add_nodes_from(satellite_name_list)
+    summary_graph = nx.Graph()
+    summary_graph.add_nodes_from(satellite_name_list)
 
     # 3. Create graph where edges weights is percent true
     # e.g. G.add_edge("a", "b", weight=0.6)
@@ -34,19 +40,23 @@ def create_graph_from_data(filepath):
     def add_edge_from_row(row):
         nodes_for_edge = extract_satellite_names_from_analysis_label(row["Analysis"])
         time_true = row["Time True"]
-        percent_true = time_true / seconds_in_a_day
+        percent_true = time_true / SECONDS_IN_A_DAY
 
         if percent_true == 0:
             return
 
-        G.add_edge(nodes_for_edge[0], nodes_for_edge[1], weight=percent_true)
+        summary_graph.add_edge(
+            nodes_for_edge[0], nodes_for_edge[1], weight=percent_true
+        )
 
-    [add_edge_from_row(row) for index, row in dataframe.iterrows()]
+    for _, row in dataframe.iterrows():
+        add_edge_from_row(row)
 
-    print("eigenvector_centrality", nx.eigenvector_centrality(G))
-    print("betweenness_centrality", nx.betweenness_centrality(G))
+    print("eigenvector_centrality", nx.eigenvector_centrality(summary_graph))
+    print("betweenness_centrality", nx.betweenness_centrality(summary_graph))
     print(
-        "current_flow_betweenness_centrality", nx.current_flow_betweenness_centrality(G)
+        "current_flow_betweenness_centrality",
+        nx.current_flow_betweenness_centrality(summary_graph),
     )
 
     # 4. Visualize the graph

@@ -1,0 +1,23 @@
+repos:
+-   repo: local
+    hooks:
+    -   id: black
+        name: black
+        entry: make black
+        language: system
+
+    -   id: mypy
+        name: mypy
+        entry: make mypy
+        language: system
+
+    -   id: pylint
+        name: pylint
+        entry: make pylint
+        language: system
+
+    -   id: test
+        name: test
+        entry: make test
+        language: system
+        stages: [push]

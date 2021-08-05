@@ -2,5 +2,9 @@
   "python.linting.pylintEnabled": true,
   "python.linting.mypyEnabled": true,
   "python.linting.enabled": true,
-  "python.linting.pylintUseMinimalCheckers": false
+  "python.linting.pylintUseMinimalCheckers": false,
+  "python.testing.pytestArgs": ["tests"],
+  "python.testing.unittestEnabled": false,
+  "python.testing.nosetestsEnabled": false,
+  "python.testing.pytestEnabled": true
 }
