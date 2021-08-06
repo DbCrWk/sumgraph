@@ -2,7 +2,6 @@
 This module contains the ParedDownSoapAccessor.
 """
 
-from enum import Enum
 from typing import Dict, Iterable, List, Tuple, TypedDict
 import pandas as pd
 from sumgraph.data_handler.data_accessor.data_type import (
@@ -11,17 +10,7 @@ from sumgraph.data_handler.data_accessor.data_type import (
 )
 
 
-class DataFrameColumn(Enum):
-    """
-    This enum captures the important columns of the dataframe parsed in a data
-    file.
-    """
-
-    ANALYSIS = "Analysis"
-    PERCENT_TRUE = "Percent True"
-
-
-DataFrameRow = TypedDict("DataFrameRow", {"Analysis": str, "Percent True": float})
+DataFrameRow = TypedDict("DataFrameRow", {"Analysis": str, "Percent True": str})
 
 
 class ParedDownSoapAccessor:
@@ -77,7 +66,7 @@ class ParedDownSoapAccessor:
         """
 
         # First produce the name of the satellites
-        satellite_name_column: List[str] = list(dataframe[DataFrameColumn.ANALYSIS])
+        satellite_name_column: List[str] = list(dataframe["Analysis"])
         satellites_nested_arrays = [
             ParedDownSoapAccessor.extract_satellite_names_from_analysis_label(x)
             for x in satellite_name_column
@@ -89,6 +78,9 @@ class ParedDownSoapAccessor:
 
         # Next, produce the visibility data
         visibility: Dict[SatelliteName, Dict[SatelliteName, float]] = {}
+        for i in satellites:
+            visibility[i] = {}
+
         for i in satellites:
             for j in satellites:
                 visibility[i][j] = 0.0
@@ -102,6 +94,7 @@ class ParedDownSoapAccessor:
                 visibility_percent,
             ) = ParedDownSoapAccessor.extract_visibility_from_analysis_row(row)
             visibility[source][target] = visibility_percent
+            visibility[target][source] = visibility_percent
 
         # Return the data
         return (satellites, visibility)
@@ -127,6 +120,8 @@ class ParedDownSoapAccessor:
         ) = ParedDownSoapAccessor.extract_satellite_names_from_analysis_label(
             row["Analysis"]
         )
-        percent_true = row["Percent True"]
+        # The original format for the data is "xx.x%", so we need to remove the
+        # % at the end and convert the remaining value to a float
+        percent_true = float(row["Percent True"].rstrip("%"))
 
         return (source, target, percent_true)
