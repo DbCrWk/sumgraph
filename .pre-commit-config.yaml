@@ -18,6 +18,6 @@ repos:
 
     -   id: test
         name: test
-        entry: make test
+        entry: make test-prepush
         language: system
         stages: [push]

@@ -21,6 +21,9 @@ mypy:
 test: clean
 	. .venv/bin/activate && pytest tests --cov=sumgraph --cov-report=term-missing
 
+test-prepush: clean
+	. .venv/bin/activate && pytest tests
+
 pylint:
 	. .venv/bin/activate && pylint sumgraph tests --reports=y
 
