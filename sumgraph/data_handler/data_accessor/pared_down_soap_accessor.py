@@ -23,7 +23,14 @@ class ParedDownSoapAccessor(FileBasedAccessor):
     def __init__(self, filepath: str) -> None:
         super().__init__(filepath)
         self._dataframe: pd.DataFrame
-        self.data: ParedDownSoapAccessorData = {"satellites": [], "visibility": {}}
+        self._data: ParedDownSoapAccessorData = {"satellites": [], "visibility": {}}
+
+    @property
+    def data(self) -> ParedDownSoapAccessorData:
+        """
+        The main data for this accessor
+        """
+        return self._data
 
     def run(self):
         """
@@ -49,8 +56,8 @@ class ParedDownSoapAccessor(FileBasedAccessor):
             self._dataframe
         )
 
-        self.data["satellites"] = satellites
-        self.data["visibility"] = visibility
+        self._data["satellites"] = satellites
+        self._data["visibility"] = visibility
 
         return self
 
