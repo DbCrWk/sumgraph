@@ -8,24 +8,22 @@ from sumgraph.data_handler.data_accessor.data_type import (
     ParedDownSoapAccessorData,
     SatelliteName,
 )
+from sumgraph.data_handler.data_accessor.file_based_accessor import FileBasedAccessor
 
 
 DataFrameRow = TypedDict("DataFrameRow", {"Analysis": str, "Percent True": str})
 
 
-class ParedDownSoapAccessor:
+class ParedDownSoapAccessor(FileBasedAccessor):
     """
     The ParedDownSoapAccessor accepts pared down soap data that is a csv file of
     satellite-to-satellite link uptime data.
     """
 
-    _filepath: str
-    _dataframe: pd.DataFrame
-    data: ParedDownSoapAccessorData
-
-    def __init__(self, filepath: str):
-        self._filepath = filepath
-        self.data = {"satellites": [], "visibility": {}}
+    def __init__(self, filepath: str) -> None:
+        super().__init__(filepath)
+        self._dataframe: pd.DataFrame
+        self.data: ParedDownSoapAccessorData = {"satellites": [], "visibility": {}}
 
     def run(self):
         """
@@ -39,7 +37,7 @@ class ParedDownSoapAccessor:
         """
         This method reads the passed datafile
         """
-        self._dataframe = pd.read_csv(filepath_or_buffer=self._filepath)  # type: ignore
+        self._dataframe = pd.read_csv(filepath_or_buffer=self.filepath)  # type: ignore
 
         return self
 

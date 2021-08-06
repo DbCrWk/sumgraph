@@ -2,7 +2,7 @@
 The modules provides type information on the data provided by data accessors.
 """
 
-from typing import Dict, List, TypedDict
+from typing import Dict, List, TypedDict, Union
 
 
 SatelliteName = str
@@ -16,3 +16,6 @@ class ParedDownSoapAccessorData(TypedDict):
 
     satellites: List[SatelliteName]
     visibility: Dict[SatelliteName, Dict[SatelliteName, VisibilityPercentage]]
+
+
+AccessorData = Union[ParedDownSoapAccessorData]
