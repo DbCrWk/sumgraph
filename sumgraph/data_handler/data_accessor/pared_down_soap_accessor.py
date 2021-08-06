@@ -7,6 +7,7 @@ import pandas as pd
 from sumgraph.data_handler.data_accessor.data_type import (
     ParedDownSoapAccessorData,
     SatelliteName,
+    VisibilityPercentage,
 )
 from sumgraph.data_handler.data_accessor.file_based_accessor import FileBasedAccessor
 
@@ -32,14 +33,6 @@ class ParedDownSoapAccessor(FileBasedAccessor):
         """
         return self._data
 
-    def run(self):
-        """
-        The main method to run data extraction and analysis
-        """
-        self.run_read_file().run_analyze_file()
-
-        return self
-
     def run_read_file(self):
         """
         This method reads the passed datafile
@@ -52,19 +45,14 @@ class ParedDownSoapAccessor(FileBasedAccessor):
         """
         This method converts the read file into usable data
         """
-        (satellites, visibility) = ParedDownSoapAccessor.convert_dataframe_to_data(
-            self._dataframe
-        )
-
-        self._data["satellites"] = satellites
-        self._data["visibility"] = visibility
+        self._data = ParedDownSoapAccessor.convert_dataframe_to_data(self._dataframe)
 
         return self
 
     @staticmethod
     def convert_dataframe_to_data(
         dataframe: pd.DataFrame,
-    ) -> Tuple[List[str], Dict[SatelliteName, Dict[SatelliteName, float]]]:
+    ) -> ParedDownSoapAccessorData:
         """
         This method converts a dataframe read from a file into the correct data
         format for this accessor
@@ -82,7 +70,7 @@ class ParedDownSoapAccessor(FileBasedAccessor):
         satellites = list(set(satellite_names_with_duplicates))
 
         # Next, produce the visibility data
-        visibility: Dict[SatelliteName, Dict[SatelliteName, float]] = {}
+        visibility: Dict[SatelliteName, Dict[SatelliteName, VisibilityPercentage]] = {}
         for i in satellites:
             visibility[i] = {}
 
@@ -101,8 +89,12 @@ class ParedDownSoapAccessor(FileBasedAccessor):
             visibility[source][target] = visibility_percent
             visibility[target][source] = visibility_percent
 
-        # Return the data
-        return (satellites, visibility)
+        data: ParedDownSoapAccessorData = {
+            "satellites": satellites,
+            "visibility": visibility,
+        }
+
+        return data
 
     @staticmethod
     def extract_satellite_names_from_analysis_label(analysis_label: str) -> List[str]:

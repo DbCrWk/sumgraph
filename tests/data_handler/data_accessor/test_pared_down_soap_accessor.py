@@ -59,12 +59,11 @@ def test_convert_dataframe_to_data():
         filepath_or_buffer="tests/data_handler/data_accessor/$.fixture/sample_soap_pared_down.csv"
     )
 
-    (
-        actual_satellites,
-        actual_visibility,
-    ) = ParedDownSoapAccessor.convert_dataframe_to_data(
+    data = ParedDownSoapAccessor.convert_dataframe_to_data(
         dataframe=dataframe  # type: ignore
     )
+    actual_satellites = data["satellites"]
+    actual_visibility = data["visibility"]
 
     expected_satellites = [
         "MRO",

@@ -18,4 +18,17 @@ class ParedDownSoapAccessorData(TypedDict):
     visibility: Dict[SatelliteName, Dict[SatelliteName, VisibilityPercentage]]
 
 
-AccessorData = Union[ParedDownSoapAccessorData]
+class DistancesSoapAccessorData(TypedDict):
+    """
+    This class is a type declaration for the data provided by DistancesSoapAccessor
+    """
+
+    satellites: List[SatelliteName]
+    distances: Dict[SatelliteName, Dict[SatelliteName, List[float]]]
+    distance_sample_timestamps: List[float]
+
+
+AccessorData = Union[
+    ParedDownSoapAccessorData,
+    DistancesSoapAccessorData,
+]

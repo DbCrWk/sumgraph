@@ -2,6 +2,7 @@
 This module defines an Accessor that is backed by some type of datafile.
 """
 
+from __future__ import annotations
 from abc import abstractmethod
 from sumgraph.data_handler.data_accessor.accessor import Accessor
 
@@ -28,14 +29,22 @@ class FileBasedAccessor(Accessor):
 
         return self._filepath
 
-    @abstractmethod
     def run(self) -> Accessor:
         """
-        The main run method of an Accessor
+        The main run method of a file based accessor
+        """
+        self.run_read_file().run_analyze_file()
+
+        return self
+
+    @abstractmethod
+    def run_read_file(self) -> FileBasedAccessor:
+        """
+        The main method to read the file
         """
 
     @abstractmethod
-    def run_read_file(self) -> Accessor:
+    def run_analyze_file(self) -> FileBasedAccessor:
         """
-        The main method to read the file
+        The main method to analyze the file
         """
