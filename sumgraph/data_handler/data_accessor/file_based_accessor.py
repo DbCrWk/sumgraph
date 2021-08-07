@@ -29,7 +29,7 @@ class FileBasedAccessor(Accessor):
 
         return self._filepath
 
-    def run(self) -> Accessor:
+    def run(self):
         """
         The main run method of a file based accessor
         """
