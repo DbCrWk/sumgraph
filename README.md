@@ -1,9 +1,15 @@
-# Average Graphs at NASA
+# sumgraph
+
+![ci workflow badge](https://github.com/DbCrWk/sumgraph/actions/workflows/ci.yml/badge.svg?branch=develop)
+
+![sumgraph](/logo/logo.png)
+
+This package prodives `python`-based utilities for working with dynamic graphs and their summariziation.
 
 ## Authors
 
-- Zara Memon
-- Dev Dabke (@DbCrWk)
+- Zara Memon ([@zm600](https://github.com/zm600))
+- Dev Dabke ([@DbCrWk](https://github.com/DbCrWk))
 
 ## Dependencies
 
