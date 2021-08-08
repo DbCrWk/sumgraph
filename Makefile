@@ -25,7 +25,7 @@ test-prepush: clean
 	. .venv/bin/activate && pytest tests
 
 pylint:
-	. .venv/bin/activate && pylint sumgraph tests --reports=y
+	. .venv/bin/activate && pylint -j 0 sumgraph tests --reports=y
 
 black:
 	. .venv/bin/activate && black sumgraph tests --check
