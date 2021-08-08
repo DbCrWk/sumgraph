@@ -2,6 +2,7 @@
 This module converts DistancesSoapData to a DynamicWeightedGraph.
 """
 
+from sumgraph.model.dynamic_weighted_graph.convention_enum import ConventionEnum
 from sumgraph.data_handler.data_accessor.data_type import (
     DistancesSoapAccessorData,
     SatelliteName,
@@ -14,6 +15,8 @@ from sumgraph.model.dynamic_weighted_graph.dynamic_weighted_graph import (
 )
 from sumgraph.helper.closest_sorted_array_search import closest_sorted_array_search
 
+FUNDAMENTAL_SPEED_CONSTANT = 299792.0
+
 
 class DistancesSoapToDynamicWeightedGraphAdapter:
     """
@@ -23,13 +26,24 @@ class DistancesSoapToDynamicWeightedGraphAdapter:
     def __init__(self, accessor: DistancesSoapAccessor):
         self._accessor = accessor
         self._accessor.run()
+        self._dwg: DynamicWeightedGraph
 
-    def adapt(self) -> DynamicWeightedGraph:
+    @property
+    def dynamic_weighted_graph(self) -> DynamicWeightedGraph:
+        """
+        Get the adapted dwg
+        """
+        return self._dwg
+
+    def adapt(self):
         """
         Perform the conversion
         """
-        data = self._accessor.data
-        return DistancesSoapToDynamicWeightedGraphAdapter.adapt_data_to_model(data)
+        self._dwg = DistancesSoapToDynamicWeightedGraphAdapter.adapt_data_to_model(
+            self._accessor.data
+        )
+
+        return self
 
     @staticmethod
     def adapt_data_to_model(data: DistancesSoapAccessorData) -> DynamicWeightedGraph:
@@ -40,7 +54,9 @@ class DistancesSoapToDynamicWeightedGraphAdapter:
         distances = data["distances"]
         distance_sample_times = data["distance_sample_timestamps"]
 
-        dwg = DynamicWeightedGraph(name="distances_soap_graph")
+        dwg = DynamicWeightedGraph(
+            name="traversal_time_soap_graph", convention=ConventionEnum.TRAVERSAL_TIME
+        )
 
         # 1. Add vertices
         for satellite in satellites:
@@ -55,7 +71,8 @@ class DistancesSoapToDynamicWeightedGraphAdapter:
                 )
 
                 # 2. Use that index to return the correct value in the distances array
-                return distances[source][target][index]
+                # We divide distance by the speed constant to get traversal time
+                return distances[source][target][index] / FUNDAMENTAL_SPEED_CONSTANT
 
             return weight_fn
 

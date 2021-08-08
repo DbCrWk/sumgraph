@@ -4,6 +4,7 @@ structure for a weighted, directed summary graph.
 """
 
 
+from __future__ import annotations
 from typing import Dict, Set
 
 
@@ -72,14 +73,6 @@ class SummaryGraph:
         if not self.has_vertex(vertex=target_vertex):
             raise ValueError("target vertex %s is not in graph" % target_vertex)
 
-        if self.has_edge_weight(
-            source_vertex=source_vertex, target_vertex=target_vertex
-        ):
-            raise ValueError(
-                "edge weight already defined between %s and %s"
-                % (source_vertex, target_vertex)
-            )
-
         self.edge_set[source_vertex][target_vertex] = weight
 
     def get_edge_weight(self, source_vertex: str, target_vertex: str) -> float:
@@ -100,3 +93,39 @@ class SummaryGraph:
             return self.edge_set[source_vertex][target_vertex]
 
         return DEFAULT_EDGE_WEIGHT
+
+    def __add__(self, b_graph: SummaryGraph):
+        """
+        This method adds two summary graphs together
+        """
+        if self.vertex_set.difference(b_graph.vertex_set):
+            raise ValueError("sets do not have same vertex sets and cannot be added")
+
+        if b_graph.vertex_set.difference(self.vertex_set):
+            raise ValueError("sets do not have same vertex sets and cannot be added")
+
+        sum_graph = SummaryGraph(
+            name="sum graph of two graphs %s + %s" % (self.name, b_graph.name)
+        )
+
+        for vertex in self.vertex_set:
+            sum_graph.add_vertex(vertex=vertex)
+
+        for source in self.vertex_set:
+            for target in self.vertex_set:
+                self_weight = self.get_edge_weight(
+                    source_vertex=source,
+                    target_vertex=target,
+                )
+                b_weight = b_graph.get_edge_weight(
+                    source_vertex=source,
+                    target_vertex=target,
+                )
+
+                sum_graph.set_edge_weight(
+                    source_vertex=source,
+                    target_vertex=target,
+                    weight=self_weight + b_weight,
+                )
+
+        return sum_graph
