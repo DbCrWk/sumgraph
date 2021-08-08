@@ -2,7 +2,7 @@
 
 ![ci workflow badge](https://github.com/DbCrWk/sumgraph/actions/workflows/ci.yml/badge.svg?branch=develop)
 
-![sumgraph](/logo/logo.png)
+![sumgraph](/logo/logo_small.png)
 
 This package prodives `python`-based utilities for working with dynamic graphs and their summariziation.
 
