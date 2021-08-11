@@ -1,7 +1,8 @@
 [tool.poetry]
 name = "sumgraph"
-version = "0.1.0"
-description = "Summary graphs for NASA"
+version = "0.0.1"
+description = "Summary graphs"
+license = "MIT"
 authors = ["Dev Dabke <dev@dabke.com>"]
 
 [tool.poetry.dependencies]
