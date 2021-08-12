@@ -193,6 +193,14 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
+name = "dionysus"
+version = "2.0.8"
+description = "Library for computing persistent homology"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "distlib"
 version = "0.3.2"
 description = "Distribution utilities"
@@ -705,7 +713,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "3.9.6"
-content-hash = "d75174a0cf575dacee84c6ca6b22e73a03b7e0d1f30a5ce4922cd505d2831e0f"
+content-hash = "13ba6871417e141013157356747bd902d17fb405923f93e6c13fc90fed56fb29"
 
 [metadata.files]
 appdirs = [
@@ -826,6 +834,10 @@ cycler = [
 decli = [
     {file = "decli-0.5.2-py3-none-any.whl", hash = "sha256:d3207bc02d0169bf6ed74ccca09ce62edca0eb25b0ebf8bf4ae3fb8333e15ca0"},
     {file = "decli-0.5.2.tar.gz", hash = "sha256:f2cde55034a75c819c630c7655a844c612f2598c42c21299160465df6ad463ad"},
+]
+dionysus = [
+    {file = "dionysus-2.0.8-cp39-cp39-macosx_10_15_x86_64.whl", hash = "sha256:6f3f641326786d159895dade8b84df5de4fd6bafcb59241f3a1c26a4717f8843"},
+    {file = "dionysus-2.0.8.tar.gz", hash = "sha256:7ea34f76e3d796d2ae2c66e3369037a70b0430b8869175ec34cae2649a485157"},
 ]
 distlib = [
     {file = "distlib-0.3.2-py2.py3-none-any.whl", hash = "sha256:23e223426b28491b1ced97dc3bbe183027419dfc7982b4fa2f05d5f3ff10711c"},
