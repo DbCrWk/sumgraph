@@ -2,7 +2,7 @@
 The modules provides type information on the data provided by data accessors.
 """
 
-from typing import Dict, List, TypedDict, Union
+from typing import Dict, List, Tuple, TypedDict, Union
 
 
 SatelliteName = str
@@ -28,7 +28,17 @@ class DistancesSoapAccessorData(TypedDict):
     distance_sample_timestamps: List[float]
 
 
+class ConnectionsSoapAccessorData(TypedDict):
+    """
+    This class is a type declaration for the data provided by ConncetionsSoapAccessor
+    """
+
+    satellites: List[SatelliteName]
+    connections: Dict[SatelliteName, Dict[SatelliteName, List[Tuple[float, float]]]]
+
+
 AccessorData = Union[
     ParedDownSoapAccessorData,
     DistancesSoapAccessorData,
+    ConnectionsSoapAccessorData,
 ]
