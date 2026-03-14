@@ -24,7 +24,10 @@ def get_integrable_fn(
         if math.isinf(val):
             return 0
 
-        return val
+        if val == 0:
+            return math.inf
+
+        return 1 / val
 
     return integrable_fn
 
@@ -64,20 +67,20 @@ def populate_lengths_and_predecessor(
         current_length = lengths[current_vertex]
         finalized.add(current_vertex)
 
-        for target in dynamic_weighted_graph.vertex_set:
+        for target_vertex in dynamic_weighted_graph.vertex_set:
             traversal_time = find_integral_bound(
                 integrable_function=get_integrable_fn(
                     dynamic_weighted_graph=dynamic_weighted_graph,
                     source=source_vertex,
-                    target=target,
+                    target=target_vertex,
                 ),
                 lower_bound=current_length,
                 target_value=1,
             )
 
-            if current_length + traversal_time < lengths[target]:
-                lengths[target] = current_length + traversal_time
-                predecessor[target] = source_vertex
+            if current_length + traversal_time < lengths[target_vertex]:
+                lengths[target_vertex] = current_length + traversal_time
+                predecessor[target_vertex] = source_vertex
 
 
 def get_paths(

@@ -2,6 +2,7 @@
 This module converts DistancesSoapData to a DynamicWeightedGraph.
 """
 
+from typing import Callable
 from sumgraph.model.dynamic_weighted_graph.convention_enum import ConventionEnum
 from sumgraph.data_handler.data_accessor.data_type import (
     DistancesSoapAccessorData,
@@ -81,7 +82,11 @@ class DistancesSoapToDynamicWeightedGraphAdapter:
                 if dwg.has_edge_weight(source_vertex=source, target_vertex=target):
                     break
 
-                weight_fn = get_weight_fn(source=source, target=target)
+                weight_fn: Callable[[float], float]
+                if source == target:
+                    weight_fn = lambda x: 0
+                else:
+                    weight_fn = get_weight_fn(source=source, target=target)
                 dwg.define_edge_weight(
                     source_vertex=source,
                     target_vertex=target,
